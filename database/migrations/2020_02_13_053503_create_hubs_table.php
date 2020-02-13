@@ -20,6 +20,7 @@ class CreateHubsTable extends Migration
             $table->string('hub_name');
             $table->string('hub_address');
             $table->string('phone')->nullable();
+            $table->string('website')->nullable();
             $table->timestamps();
         });
     }

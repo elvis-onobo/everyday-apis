@@ -53,6 +53,9 @@ Route::delete('state/{id}', 'StateController@destroy');
 // Get all the hubs in a country
 Route::get('/country/{id}/hubs/', 'HubController@index');
 
+// Get all the hubs associated with a state
+Route::get('state/{id}/hubs/', 'HubController@stateHubs');
+
 // Get a single hub associated with a state
 Route::get('state/{id}/hub/{hub_id}', 'HubController@show');
 
@@ -60,13 +63,13 @@ Route::get('state/{id}/hub/{hub_id}', 'HubController@show');
 Route::get('/hubs/all', 'HubController@all');
 
 // get a single hub without country or state
-Route::get('/hub/one', 'HubController@one');
+Route::get('/hub/one/{id}', 'HubController@one');
 
 // create a hub
 Route::post('/hub', 'HubController@store');
 
 // update a hub
-Route::put('/hub', 'HubController@update');
+Route::put('/hub/{id}', 'HubController@update');
 
 // delete a hub
 Route::delete('hub/{id}', 'HubController@destroy');
