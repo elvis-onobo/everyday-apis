@@ -17,8 +17,11 @@ class StateController extends Controller
     public function index($id)
     {
         //return all states belonging to a country
-        $states = Country::find($id)->state;
+        $states = State::where('country_id',$id)->get();
 
+        if(empty($states)){
+            return null;
+        }
         return response()->json($states);
     }
 
@@ -31,6 +34,13 @@ class StateController extends Controller
     public function store(Request $request)
     {
         //create a state related to a country by ID
+        $state = new State;
+        $state->country_id = $request->input('country_id');
+        $state->state = $request->input('state');
+
+        if($state->save()){
+            return response()->json($state);
+        }
     }
 
     /**
@@ -39,20 +49,12 @@ class StateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $state_id)
     {
-        //
-    }
+        //display a single state in a country
+        $state = State::where(['country_id'=>$id, 'id'=>$state_id])->first();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return response()->json($state);
     }
 
     /**
@@ -64,7 +66,13 @@ class StateController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'state' => 'required'
+        ]);
+        //update a country
+        if(State::where('id', $id)->update(['state'=>$request->input('state')])){
+            return response()->json(['status'=>'successfully updated']);
+        }
     }
 
     /**
@@ -75,6 +83,12 @@ class StateController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //get particular country
+        $state = State::findOrFail($id);
+
+        // return country as a resource
+        if($state->delete()){
+            return response()->json(['status'=>'successful']);
+        }
     }
 }
