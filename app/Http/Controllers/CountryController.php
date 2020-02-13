@@ -20,7 +20,7 @@ class CountryController extends Controller
         $countries = Country::paginate(12);
 
         // return collection of countries
-        return CountryResource::collection($countries);
+        return response()->json($countries);
     }
 
     /**
@@ -37,7 +37,7 @@ class CountryController extends Controller
         $country->country = $request->input('country');
 
         if($country->save()){
-            return new CountryResource($country);
+            return response()->json($country);
         }
     }
 
@@ -53,7 +53,7 @@ class CountryController extends Controller
         $country = Country::findOrFail($id);
 
         // return country as a resource
-        return new CountryResource::collection($country);
+        return response()->json($country);
     }
 
     /**
@@ -65,10 +65,13 @@ class CountryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'country' => 'required'
+        ]);
         //update a country
-        $country = findOrFail($id);
-
-        if($country->update())
+        if(Country::where('id', $id)->update(['country'=>$request->input('country')])){
+            return response()->json(['status'=>'country updated']);
+        }
     }
 
     /**
@@ -84,7 +87,9 @@ class CountryController extends Controller
 
         // return country as a resource
         if($country->delete()){
-            return new CountryResource::collection($country);
+            return response()->json(['status'=>'successful']);
         }
     }
+
+
 }

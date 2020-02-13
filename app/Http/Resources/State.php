@@ -15,5 +15,12 @@ class State extends JsonResource
     public function toArray($request)
     {
         return parent::toArray($request);
+
+        // public function with($request){
+        //     return [
+        //         'author' => 'Elvis Onobo',
+        //         'email' => 'elvis.onobo@gmail.com'
+        //     ];
+        // }
     }
 }

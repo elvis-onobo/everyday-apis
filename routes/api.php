@@ -27,7 +27,7 @@ Route::get('country/{id}', 'CountryController@show');
 Route::post('country', 'CountryController@store');
 
 // update country
-Route::put('country', 'CountryController@store');
+Route::put('country/{id}', 'CountryController@update');
 
 // delete country
 Route::delete('country/{id}', 'CountryController@destroy');

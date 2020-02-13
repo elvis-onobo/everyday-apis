@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Country;
+use App\State;
 
 class StateController extends Controller
 {
@@ -11,19 +14,12 @@ class StateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
-    }
+        //return all states belonging to a country
+        $states = Country::find($id)->state;
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return response()->json($states);
     }
 
     /**
@@ -34,7 +30,7 @@ class StateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //create a state related to a country by ID
     }
 
     /**
